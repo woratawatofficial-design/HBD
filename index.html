@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday 💗</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --pink-1: #fff0f6;
+      --pink-2: #ffd6e7;
+      --pink-3: #ff9fc5;
+      --pink-4: #ff5fa2;
+      --pink-5: #e93683;
+      --text: #7d2a50;
+      --white: #ffffff;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Trebuchet MS", "Arial Rounded MT Bold", Arial, sans-serif;
+      overflow: hidden;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,.95), transparent 24%),
+        radial-gradient(circle at 80% 15%, rgba(255,255,255,.7), transparent 22%),
+        linear-gradient(135deg, #fff5fa 0%, #ffd9ea 45%, #ffc6df 100%);
+    
+    }
+
+    button, input {
+      font: inherit;
+    }
+
+    .screen {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity .9s ease, transform .9s ease;
+    }
+
+    /* -------- Password screen -------- */
+    #lockScreen {
+      z-index: 20;
+      padding: 24px;
+    }
+
+    .bg-deco {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,.55);
+      box-shadow: inset 0 0 30px rgba(255,255,255,.6);
+      animation: floatBubble 8s ease-in-out infinite;
+    }
+
+    .bubble:nth-child(1){ width:90px;height:90px;left:7%;top:13%;animation-delay:-1s;}
+    .bubble:nth-child(2){ width:50px;height:50px;right:12%;top:18%;animation-delay:-3s;}
+    .bubble:nth-child(3){ width:120px;height:120px;right:6%;bottom:10%;animation-delay:-5s;}
+    .bubble:nth-child(4){ width:70px;height:70px;left:14%;bottom:12%;animation-delay:-2s;}
+
+    @keyframes floatBubble {
+      0%,100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-25px) rotate(8deg); }
+    }
+
+    .card {
+      width: min(420px, 92vw);
+      padding: 34px 28px 30px;
+      border-radius: 28px;
+      background: rgba(255,255,255,.72);
+      border: 2px solid rgba(255,255,255,.88);
+      box-shadow: 0 22px 60px rgba(227, 70, 135, .18);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      text-align: center;
+      position: relative;
+    }
+
+    .card::before,
+    .card::after {
+      content: "♡";
+      position: absolute;
+      font-size: 28px;
+      color: var(--pink-4);
+      animation: tinyBounce 2s ease-in-out infinite;
+    }
+
+    .card::before { left: 22px; top: 18px; }
+    .card::after  { right: 22px; top: 18px; animation-delay: -1s; }
+
+    @keyframes tinyBounce {
+      0%,100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-6px) scale(1.12); }
+    }
+
+    .lock-icon {
+      width: 84px;
+      height: 84px;
+      margin: 0 auto 14px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #fff, #ffd3e6);
+      box-shadow: 0 12px 28px rgba(233, 54, 131, .15);
+      font-size: 42px;
+    }
+
+    h1 {
+      font-size: clamp(30px, 7vw, 44px);
+      color: var(--pink-5);
+      margin-bottom: 8px;
+      letter-spacing: .5px;
+    }
+
+    .subtitle {
+      font-size: 15px;
+      opacity: .78;
+      margin-bottom: 24px;
+    }
+
+    .password-wrap {
+      display: flex;
+      gap: 10px;
+      background: rgba(255,255,255,.82);
+      padding: 7px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,95,162,.18);
+    }
+
+    #passwordInput {
+      width: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      padding: 13px 14px;
+      color: var(--text);
+      letter-spacing: 5px;
+      font-size: 18px;
+    }
+
+    #passwordInput::placeholder {
+      color: #cb8ba8;
+      letter-spacing: 1px;
+      font-size: 14px;
+    }
+
+    #unlockBtn {
+      border: none;
+      padding: 12px 19px;
+      border-radius: 14px;
+      color: white;
+      background: linear-gradient(135deg, var(--pink-4), var(--pink-5));
+      cursor: pointer;
+      box-shadow: 0 9px 20px rgba(233,54,131,.25);
+      transition: transform .2s ease, box-shadow .2s ease;
+      white-space: nowrap;
+    }
+
+    #unlockBtn:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 12px 24px rgba(233,54,131,.32);
+    }
+
+    #message {
+      min-height: 22px;
+      margin-top: 12px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .shake {
+      animation: shake .42s ease;
+    }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      50% { transform: translateX(8px); }
+      75% { transform: translateX(-5px); }
+    }
+
+    /* -------- Birthday screen -------- */
+    #birthdayScreen {
+      z-index: 5;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(1.03);
+      flex-direction: column;
+      padding: 20px;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255,255,255,.95), transparent 25%),
+        linear-gradient(160deg, #fff3f8 0%, #ffd8e9 50%, #ffbdd9 100%);
+    }
+
+    #birthdayScreen.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+    }
+
+    #lockScreen.hide {
+      opacity: 0;
+      transform: scale(.94);
+      pointer-events: none;
+    }
+
+    .birthday-title {
+      position: relative;
+      z-index: 3;
+      font-size: clamp(42px, 10vw, 86px);
+      line-height: .95;
+      text-align: center;
+      font-weight: 900;
+      color: var(--pink-5);
+      text-shadow:
+        0 4px 0 #fff,
+        0 10px 25px rgba(233,54,131,.22);
+      transform: scale(.1);
+      opacity: 0;
+    }
+
+    .birthday-title.pop {
+      animation: hbdPop 1.15s cubic-bezier(.18,.89,.32,1.28) forwards;
+    }
+
+    @keyframes hbdPop {
+      0% { transform: scale(.1) rotate(-8deg); opacity: 0; }
+      55% { transform: scale(1.18) rotate(3deg); opacity: 1; }
+      78% { transform: scale(.94) rotate(-1deg); }
+      100% { transform: scale(1) rotate(0); opacity: 1; }
+    }
+
+    .birthday-caption {
+      position: relative;
+      z-index: 3;
+      margin: 12px 0 18px;
+      font-size: clamp(16px, 3vw, 22px);
+      text-align: center;
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    .birthday-caption.show-text {
+      animation: showText .9s .65s forwards;
+    }
+
+    @keyframes showText {
+      to { opacity: .82; transform: translateY(0); }
+    }
+
+ .slideshow {
+  width: min(520px, 90vw);
+  aspect-ratio: 3 / 4;
+  max-height: 75vh;
+
+  position: relative;
+  z-index: 3;
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transform: scale(1.05);
+      transition: opacity 1.5s ease, transform 4.5s ease;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .fallback {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 30px;
+      color: #b44975;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.95), rgba(255,211,231,.88));
+      font-size: clamp(20px, 4vw, 32px);
+      font-weight: 800;
+    }
+
+    .dots {
+      position: absolute;
+      left: 50%;
+      bottom: 14px;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 7px;
+      z-index: 4;
+      padding: 7px 10px;
+      border-radius: 99px;
+      background: rgba(255,255,255,.48);
+      backdrop-filter: blur(6px);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(232,54,130,.26);
+      transition: all .3s ease;
+    }
+
+    .dot.active {
+      width: 20px;
+      border-radius: 99px;
+      background: var(--pink-5);
+    }
+
+    .wish {
+      position: relative;
+      z-index: 3;
+      margin-top: 15px;
+      max-width: 700px;
+      text-align: center;
+      font-size: 15px;
+      opacity: .8;
+    }
+
+    /* -------- Floating hearts -------- */
+    .heart {
+      position: fixed;
+      bottom: -30px;
+      pointer-events: none;
+      z-index: 2;
+      opacity: .75;
+      animation: heartFloat linear forwards;
+      filter: drop-shadow(0 4px 6px rgba(212,50,118,.15));
+    }
+
+    @keyframes heartFloat {
+      0% {
+        transform: translateY(0) translateX(0) rotate(0deg) scale(.7);
+        opacity: 0;
+      }
+      10% { opacity: .82; }
+      100% {
+        transform: translateY(-115vh) translateX(var(--drift)) rotate(360deg) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    /* -------- Confetti -------- */
+    .confetti {
+      position: fixed;
+      top: -20px;
+      z-index: 50;
+      pointer-events: none;
+      animation: confettiFall linear forwards;
+    }
+
+    @keyframes confettiFall {
+      to {
+        transform: translate3d(var(--x), 115vh, 0) rotate(var(--r));
+        opacity: .95;
+      }
+    }
+
+    .spark {
+      position: fixed;
+      left: 50%;
+      top: 45%;
+      z-index: 60;
+      pointer-events: none;
+      font-size: 24px;
+      animation: explode 1.15s cubic-bezier(.2,.8,.2,1) forwards;
+    }
+
+    @keyframes explode {
+      0%   { transform: translate(-50%,-50%) scale(.2); opacity: 1; }
+      100% { transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1.5) rotate(180deg); opacity: 0; }
+    }
+
+    @media (max-width: 540px) {
+      .card { padding: 30px 18px 24px; }
+      .password-wrap { flex-direction: column; }
+      #unlockBtn { width: 100%; }
+      .slideshow { height: 48vh; min-height: 290px; border-radius: 24px; }
+      .wish { font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <audio id="bgMusic" loop>
+  <source src="music/birthday.mp3" type="audio/mpeg">
+</audio>
+  <section id="lockScreen" class="screen">
+    <div class="bg-deco">
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+    </div>
+
+    <div class="card" id="loginCard">
+      <div class="lock-icon">🎀</div>
+      <h1>Secret Birthday</h1>
+      <p class="subtitle">ใส่รหัสลับก่อนเข้าไปดูเซอร์ไพรส์นะ 💗</p>
+
+      <div class="password-wrap">
+        <input
+          id="passwordInput"
+          type="password"
+          inputmode="numeric"
+          maxlength="6"
+          placeholder="Enter password"
+          autocomplete="off"
+        />
+        <button id="unlockBtn">Open 💌</button>
+      </div>
+
+      <div id="message"></div>
+    </div>
+  </section>
+
+  <section id="birthdayScreen" class="screen">
+    <h2 class="birthday-title" id="birthdayTitle">HAPPY<br>BIRTHDAY! 🎂</h2>
+    <p class="birthday-caption" id="birthdayCaption">
+      ลูกหมู 17 ขวบเเล้ว 💕
+    </p>
+
+    <div class="slideshow">
+      <div class="fallback" id="fallback">
+        ใส่รูปของคุณไว้ในโฟลเดอร์ <br>
+        <strong>images / img1.jpg → img10.jpg</strong> 📸
+      </div>
+
+      <img class="slide" src="PIC/LINE_ALBUM_เริ่มกันใหม่_260811_1.jpg" alt="Birthday photo 1">
+      <img class="slide" src="PIC/LINE_ALBUM_อะจุ้บๆๆๆๆๆๆ_260811_1.jpg" alt="Birthday photo 2">
+      <img class="slide" src="PIC/LINE_ALBUM_วาเลนไนน์_260811_1.jpg" alt="Birthday photo 3">
+      <img class="slide" src="PIC/LINE_ALBUM_รักเมิ้ก_260811_1.jpg" alt="Birthday photo 4">
+      <img class="slide" src="PIC/LINE_ALBUM_ปัจฉิมเลิฟ_260811_1.jpg" alt="Birthday photo 5">
+      <img class="slide" src="PIC/LINE_ALBUM_ซีคอนนนน_260811_1.jpg" alt="Birthday photo 6">
+      <img class="slide" src="PIC/LINE_ALBUM_jtrm_260811_1.jpg" alt="Birthday photo 7">
+      <img class="slide" src="PIC/LINE_ALBUM_Dream world_260811_1.jpg" alt="Birthday photo 8">
+      <img class="slide" src="PIC/LINE_ALBUM_51068_260811_1.jpg" alt="Birthday photo 9">
+      <img class="slide" src="PIC/LINE_ALBUM_4469 สะสมฟามสุข_260811_1.jpg" alt="Birthday photo 10">
+      <img class="slide" src="PIC/LINE_ALBUM_23868_260811_1.jpg" alt="Birthday photo 11">
+      <img class="slide" src="PIC/LINE_ALBUM_21968_260811_1.jpg" alt="Birthday photo 12">
+      <img class="slide" src="PIC/LINE_ALBUM_18469 รูปน้อยเเต่จุ้บนาน_260811_1.jpg" alt="Birthday photo 13">
+      <img class="slide" src="PIC/LINE_ALBUM_11th July 2025 ( first date)_260811_1.jpg" alt="Birthday photo 14">
+      <img class="slide" src="PIC/LINE_ALBUM_11 สะสม_260811_1.jpg" alt="Birthday photo 15">
+
+      <div class="dots" id="dots"></div>
+    </div>
+
+    <p class="wish">
+      ✨ ขอให้มีความสุขมากๆ ขอบคุณที่ผ่านอะไรหลายๆอย่างมาด้วยกัน เเม้ว่าจะมีเรื่องที่ไม่ลงรอยกัน เเต่ก็ขอให้เข้ากันได้ ปีนี้ 17 ขอให้เป็นปีที่ดี ขอให้เรียนเก่งๆ ได้เกรดดีๆ คนเก่งของเรา   ✨
+    </p>
+  </section>
+
+  <script>
+    const PASSWORD = "110725";
+
+    const lockScreen = document.getElementById("lockScreen");
+    const birthdayScreen = document.getElementById("birthdayScreen");
+    const passwordInput = document.getElementById("passwordInput");
+    const unlockBtn = document.getElementById("unlockBtn");
+    const message = document.getElementById("message");
+    const loginCard = document.getElementById("loginCard");
+    const birthdayTitle = document.getElementById("birthdayTitle");
+    const birthdayCaption = document.getElementById("birthdayCaption");
+    const slides = [...document.querySelectorAll(".slide")];
+    const fallback = document.getElementById("fallback");
+    const dotsBox = document.getElementById("dots");
+
+    let current = 0;
+    let slideshowStarted = false;
+
+    // Create slideshow dots
+    slides.forEach((_, i) => {
+      const dot = document.createElement("span");
+      dot.className = "dot";
+      if (i === 0) dot.classList.add("active");
+      dotsBox.appendChild(dot);
+    });
+
+    const dots = [...document.querySelectorAll(".dot")];
+
+    // Hide broken images and detect if any real photo exists
+    let loadedImages = 0;
+    slides.forEach((img) => {
+      img.addEventListener("load", () => {
+        loadedImages++;
+        fallback.style.display = "none";
+
+        if (!slideshowStarted) {
+          slideshowStarted = true;
+          startSlideshow();
+        }
+      });
+
+      img.addEventListener("error", () => {
+        img.style.display = "none";
+      });
+    });
+
+    function startSlideshow() {
+      const available = slides.filter(img => img.style.display !== "none" && img.complete && img.naturalWidth > 0);
+      if (!available.length) return;
+
+      slides.forEach(s => s.classList.remove("active"));
+      available[0].classList.add("active");
+
+      setInterval(() => {
+        const activeAvailable = slides.filter(img => img.style.display !== "none" && img.complete && img.naturalWidth > 0);
+        if (!activeAvailable.length) return;
+
+        activeAvailable.forEach(img => img.classList.remove("active"));
+        current = (current + 1) % activeAvailable.length;
+        activeAvailable[current].classList.add("active");
+
+        dots.forEach(d => d.classList.remove("active"));
+        const originalIndex = slides.indexOf(activeAvailable[current]);
+        if (dots[originalIndex]) dots[originalIndex].classList.add("active");
+      }, 3800);
+    }
+
+    function unlock() {
+      const value = passwordInput.value.trim();
+
+      if (value !== PASSWORD) {
+        message.textContent = "รหัสยังไม่ถูกน้า ลองอีกที 💭";
+        message.style.color = "#d93678";
+        loginCard.classList.remove("shake");
+        void loginCard.offsetWidth;
+        loginCard.classList.add("shake");
+        passwordInput.select();
+        return;
+      }
+
+      message.textContent = "ถูกต้อง! 💗";
+      message.style.color = "#43a56a";
+
+      const music = document.getElementById("bgMusic");
+
+      music.volume = 0;
+      music.play();
+
+      let volume = 0; 
+
+      const fadeMusic = setInterval(() => {
+        volume += 0.02;
+
+        if (volume >= 0.5) {
+          volume = 0.5;
+          clearInterval(fadeMusic);
+        }
+
+        music.volume = volume;
+      }, 100);
+
+      launchConfetti(150);
+      launchExplosion();
+
+      setTimeout(() => {
+        lockScreen.classList.add("hide");
+        birthdayScreen.classList.add("show");
+        birthdayTitle.classList.add("pop");
+        birthdayCaption.classList.add("show-text");
+        startHearts();
+      }, 500);
+    }
+
+    unlockBtn.addEventListener("click", unlock);
+
+    passwordInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") unlock();
+    });
+
+    function launchConfetti(amount = 120) {
+      const symbols = ["●", "■", "▲", "♥", "★"];
+      const colors = ["#ff4f9a", "#ff8fbd", "#ffd166", "#ffffff", "#d96cde", "#ff6f91"];
+
+      for (let i = 0; i < amount; i++) {
+        const piece = document.createElement("span");
+        piece.className = "confetti";
+        piece.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        piece.style.left = Math.random() * 100 + "vw";
+        piece.style.color = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.fontSize = (7 + Math.random() * 12) + "px";
+        piece.style.setProperty("--x", (Math.random() * 180 - 90) + "px");
+        piece.style.setProperty("--r", (360 + Math.random() * 720) + "deg");
+        piece.style.animationDuration = (2.6 + Math.random() * 2.8) + "s";
+        piece.style.animationDelay = (Math.random() * .65) + "s";
+
+        document.body.appendChild(piece);
+        setTimeout(() => piece.remove(), 6500);
+      }
+    }
+
+    function launchExplosion() {
+      const things = ["💗","✨","🎉","🎀","💖","⭐","🌸"];
+
+      for (let i = 0; i < 34; i++) {
+        const s = document.createElement("span");
+        s.className = "spark";
+        s.textContent = things[Math.floor(Math.random() * things.length)];
+
+        const angle = (Math.PI * 2 * i) / 34;
+        const distance = 120 + Math.random() * 280;
+
+        s.style.setProperty("--x", Math.cos(angle) * distance + "px");
+        s.style.setProperty("--y", Math.sin(angle) * distance + "px");
+
+        document.body.appendChild(s);
+        setTimeout(() => s.remove(), 1500);
+      }
+    }
+
+    function startHearts() {
+      setInterval(() => {
+        const heart = document.createElement("span");
+        heart.className = "heart";
+        heart.textContent = Math.random() > .35 ? "💗" : "🌸";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (14 + Math.random() * 20) + "px";
+        heart.style.setProperty("--drift", (Math.random() * 160 - 80) + "px");
+        heart.style.animationDuration = (6 + Math.random() * 5) + "s";
+
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 12000);
+      }, 420);
+    }
+
+    // Little ambient hearts on the password page
+    setInterval(() => {
+      if (lockScreen.classList.contains("hide")) return;
+
+      const heart = document.createElement("span");
+      heart.className = "heart";
+      heart.textContent = "♡";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = (14 + Math.random() * 17) + "px";
+      heart.style.color = "#ec5b99";
+      heart.style.setProperty("--drift", (Math.random() * 100 - 50) + "px");
+      heart.style.animationDuration = (7 + Math.random() * 4) + "s";
+
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 12000);
+    }, 800);
+  </script>
+</body>
+</html>
